@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ru" data-theme="A">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Наталья - психолог</title>
+  <meta name="description" content="" />
+  <style>
+    /* ====== Базовые настройки и темы ====== */
+    :root {
+      --page: #f8fafc;
+      --white: #ffffff;
+      /* Тема A (по умолчанию) */
+      --bg: #F5F1EA;
+      --soft: #E9E3DA;
+      --text: #2F3A2E;
+      --muted: #6B7565;
+      --accent: #A3B18A;
+      --ring: rgba(0,0,0,0.08);
+    }
+    html[data-theme="B"] {
+      --bg: #EAF0ED;
+      --soft: #E3ECE8;
+      --text: #26333A;
+      --muted: #5A6F78;
+      --accent: #DDB2B9;
+    }
+    html[data-theme="C"] {
+      --bg: #F3EDF7;
+      --soft: #EEE6F4;
+      --text: #313342;
+      --muted: #667085;
+      --accent: #BFA3DA;
+    }
+
+    /* ====== Reset/типографика ====== */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--page);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    img, svg { display: block; max-width: 100%; }
+    h1,h2,h3,h4 { margin: 0 0 .5rem; line-height: 1.25; }
+    p { margin: 0 0 1rem; color: #475569; }
+    a { color: inherit; }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 24px 16px; }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.06);
+      border: 1px solid var(--ring);
+    }
+
+    /* ====== Шапка/переключатель ====== */
+    .switcher {
+      display: inline-flex;
+      gap: 4px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.06);
+      border: 1px solid var(--ring);
+    }
+    .switcher button {
+      border: 0;
+      background: transparent;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .switcher button[aria-pressed="true"] {
+      background: #f1f5f9;
+      box-shadow: 0 1px 2px rgba(0,0,0,.06) inset;
+    }
+
+    /* ====== Вариантный блок ====== */
+    .variant {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--ring);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      background: var(--bg);
+    }
+    .hero { padding: 40px 20px 24px; }
+    .hero-inner { max-width: 960px; margin: 0 auto; display: grid; gap: 24px; align-items: center; }
+    .hero.center { text-align: center; }
+    .hero.split .hero-inner { grid-template-columns: 1fr 280px; }
+    .hero h1 { font-size: clamp(28px, 3vw, 36px); }
+    .hero p { margin-top: 8px; color: #475569; }
+
+    .tabs-wrap { margin-top: 16px; display: flex; justify-content: center; }
+    .tabs {
+      display: inline-flex; gap: 2px; padding: 4px;
+      background: rgba(255,255,255,.7);
+      border-radius: 16px;
+      border: 1px solid var(--ring);
+      backdrop-filter: blur(2px);
+    }
+    .tabs button {
+      border: 0;
+      background: transparent;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .tabs button[aria-selected="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+
+    .section { padding: 24px 20px 32px; }
+    .surface { background: var(--soft); border-radius: 20px; padding: 24px; }
+
+    /* ====== Гриды ====== */
+    .grid { display: grid; gap: 24px; }
+    @media (min-width: 960px) {
+      .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 320px 1fr; align-items: start; }
+    }
+
+    /* ====== Списки и карточки ====== */
+    .bullets { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .bullet { display: flex; gap: 10px; }
+    .bullet::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: currentColor; opacity: .7; margin-top: 8px; }
+
+    .service { padding: 16px; border-radius: 14px; border: 1px solid var(--ring); background: rgba(255,255,255,.85); }
+    .service h4 { margin: 0 0 6px; color: var(--accent); font-size: 16px; }
+    .meta { display: flex; gap: 16px; font-size: 14px; color: #334155; }
+
+    /* ====== Формы ====== */
+    .field { display: grid; gap: 6px; }
+    .label { font-size: 14px; font-weight: 600; color: var(--text); }
+    .input, .select, .textarea {
+      width: 100%; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid #e2e8f0; background: rgba(255,255,255,.9);
+      color: #0f172a;
+      outline: none;
+    }
+    .input:focus, .select:focus, .textarea:focus { box-shadow: 0 0 0 2px var(--accent); border-color: var(--accent); }
+    .row { display: grid; gap: 16px; }
+    @media (min-width: 800px) { .row-2 { grid-template-columns: 1fr 1fr; } }
+    .hint { font-size: 13px; color: var(--muted); }
+
+    .error { color: #b91c1c; font-size: 13px; }
+    .alert { font-size: 14px; margin-bottom: 4px; }
+    .consent { display: flex; gap: 10px; align-items: start; color: #334155; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 16px; border-radius: 12px; border: 0;
+      background: var(--accent); color: #1f2937; font-weight: 700; cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,.06);
+    }
+
+    /* ====== Подвал ====== */
+    .footer { padding: 16px 20px 28px; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+    /* ====== SVG (портрет, сертификаты) ====== */
+    .portrait svg, .cert svg { border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <!-- Переключатель вариантов -->
+    <header style="display:none;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;">
+      <div>
+        <h1 style="font-size:22px;margin:0 0 6px;color:#0f172a;">Сайт-визитка для психолога</h1>
+        <p class="hint">В каждой теме — вкладки «О себе» и «Запись», спокойные пастельные цвета, доступность формы.</p>
+      </div>
+      <div class="switcher" role="group" aria-label="Переключатель вариантов оформления">
+        <button type="button" data-variant="A" aria-pressed="true">Вариант A</button>
+        <button type="button" data-variant="B" aria-pressed="false">Вариант B</button>
+        <button type="button" data-variant="C" aria-pressed="false">Вариант C</button>
+      </div>
+    </header>
+
+    <!-- Вариантный блок -->
+    <section class="variant">
+      <!-- Шапка / герой -->
+      <div class="hero" id="hero" data-kind="left">
+        <div class="hero-inner">
+          <div>
+            <h1>Психолог Наталья</h1>
+            <p>Спокойная, бережная терапия: тревога, стресс, отношения. Очно в Санкт-Петербурге и онлайн.</p>
+          </div>
+        </div>
+
+        <!-- Вкладки -->
+        <div class="tabs-wrap">
+          <div class="tabs" role="tablist" aria-label="Разделы сайта">
+            <button id="tab-about" role="tab" aria-selected="true" aria-controls="panel-about">О себе</button>
+            <button id="tab-book" role="tab" aria-selected="false" aria-controls="panel-book">Запись на консультацию</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Контент -->
+      <div class="section">
+        <div class="surface">
+          <!-- Панель: О себе -->
+          <div id="panel-about" role="tabpanel" aria-labelledby="tab-about">
+            <div class="grid about-grid">
+              <div class="portrait">
+                <!-- Портрет (SVG) -->
+                <svg viewBox="0 0 240 320" role="img" aria-label="Портрет психолога">
+                  <rect width="240" height="320" fill="#fafafa"></rect>
+                  <circle cx="120" cy="110" r="50" fill="#e5e7eb" stroke="#94a3b8" stroke-width="2"></circle>
+                  <rect x="60" y="170" width="120" height="100" rx="16" fill="#e5e7eb" stroke="#94a3b8" stroke-width="2"></rect>
+                  <rect x="0" y="260" width="240" height="60" fill="#f3f4f6"></rect>
+                  <text x="120" y="285" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="14" fill="#475569">Наталья</text>
+                  <text x="120" y="305" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="12" fill="#64748b">психолог-консультант</text>
+                </svg>
+              </div>
+              <div class="grid" style="gap:24px;">
+                <div>
+                  <h2 style="font-size:24px;">Наталья</h2>
+                  <p>Психолог-консультант, подход — интегративный (КПТ, майндфулнесс, работа с ценностями). Принимаю очно в Санкт-Петербургеи онлайн по записи.</p>
+                </div>
+
+                <div>
+                  <p>За 8 лет практики я помогаю людям безопасно исследовать свои чувства, снижать тревожность и выстраивать устойчивые привычки. Мы двигаемся в комфортном темпе: от стабилизации состояния к осмыслению и новым выборам. В работе опираюсь на научно подтверждённые методы, регулярную супервизию и этический кодекс.</p>
+                  <p>На первой встрече мы уточним запрос и ожидаемый результат, договоримся о формате и частоте. Важно, чтобы вам было спокойно и понятно на каждом шаге.</p>
+                </div>
+
+                <div class="grid grid-2">
+                  <div>
+                    <h3 style="margin-bottom:8px;">Специализации</h3>
+                    <ul class="bullets">
+                      <li class="bullet">Тревожные расстройства и панические атаки</li>
+                      <li class="bullet">Стресс и эмоциональное выгорание</li>
+                      <li class="bullet">Отношения и границы</li>
+                      <li class="bullet">Низкая самооценка и самокритика</li>
+                      <li class="bullet">Потеря, переживание горя</li>
+                      <li class="bullet">Психосоматические проявления</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 style="margin-bottom:8px;">Услуги</h3>
+                    <div class="grid">
+                      <article class="service">
+                        <h4>Индивидуальная консультация (очно/онлайн)</h4>
+                        <p>Поддержка в безопасном, конфиденциальном пространстве. Работаем с запросом и планом изменений.</p>
+                        <div class="meta"><span>50 минут</span><span>8 000 ₽</span></div>
+                      </article>
+                      <article class="service">
+                        <h4>Парная терапия</h4>
+                        <p>Коммуникация, конфликты, договорённости. Структура встречи и домашние задания.</p>
+                        <div class="meta"><span>75 минут</span><span>12 000 ₽</span></div>
+                      </article>
+                      <article class="service">
+                        <h4>Краткосрочная поддержка</h4>
+                        <p>Фокус на стабилизацию состояния и планирование ближайших шагов (2–4 встречи).</p>
+                        <div class="meta"><span>50 минут</span><span>по запросу</span></div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 style="margin-bottom:12px;">Сертификаты и дипломы</h3>
+                  <div class="grid grid-3">
+                    <!-- Сертификат 1 -->
+                    <div class="cert">
+                      <svg viewBox="0 0 600 800" role="img" aria-label="Сертификат: МГППУ — Клиническая психология">
+                        <rect width="600" height="800" fill="#fff"></rect>
+                        <rect x="24" y="24" width="552" height="752" fill="#fcfcfc" stroke="#e5e7eb" stroke-width="4" rx="16"></rect>
+                        <rect x="60" y="110" width="480" height="2" fill="#e5e7eb"></rect>
+                        <rect x="60" y="640" width="480" height="2" fill="#e5e7eb"></rect>
+                        <text x="300" y="85" text-anchor="middle" font-family="ui-serif, Georgia, Cambria" font-size="28" fill="#1f2937">МГППУ — Клиническая психология</text>
+                        <text x="300" y="155" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="16" fill="#374151">Диплом бакалавра, 2016</text>
+                        <circle cx="480" cy="690" r="34" fill="#e5e7eb" stroke="#9ca3af"></circle>
+                        <text x="480" y="695" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="12" fill="#374151">SEAL</text>
+                        <rect x="110" y="690" width="220" height="8" fill="#d1d5db"></rect>
+                        <rect x="110" y="710" width="160" height="8" fill="#e5e7eb"></rect>
+                      </svg>
+                    </div>
+                    <!-- Сертификат 2 -->
+                    <div class="cert">
+                      <svg viewBox="0 0 600 800" role="img" aria-label="Сертификат: КПТ — Международный институт">
+                        <rect width="600" height="800" fill="#fff"></rect>
+                        <rect x="24" y="24" width="552" height="752" fill="#fcfcfc" stroke="#e5e7eb" stroke-width="4" rx="16"></rect>
+                        <rect x="60" y="110" width="480" height="2" fill="#e5e7eb"></rect>
+                        <rect x="60" y="640" width="480" height="2" fill="#e5e7eb"></rect>
+                        <text x="300" y="85" text-anchor="middle" font-family="ui-serif, Georgia, Cambria" font-size="28" fill="#1f2937">КПТ — Международный институт</text>
+                        <text x="300" y="155" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="16" fill="#374151">Сертификация, 2019</text>
+                        <circle cx="480" cy="690" r="34" fill="#e5e7eb" stroke="#9ca3af"></circle>
+                        <text x="480" y="695" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="12" fill="#374151">SEAL</text>
+                        <rect x="110" y="690" width="220" height="8" fill="#d1d5db"></rect>
+                        <rect x="110" y="710" width="160" height="8" fill="#e5e7eb"></rect>
+                      </svg>
+                    </div>
+                    <!-- Сертификат 3 -->
+                    <div class="cert">
+                      <svg viewBox="0 0 600 800" role="img" aria-label="Сертификат: Майндфулнесс-практик">
+                        <rect width="600" height="800" fill="#fff"></rect>
+                        <rect x="24" y="24" width="552" height="752" fill="#fcfcfc" stroke="#e5e7eb" stroke-width="4" rx="16"></rect>
+                        <rect x="60" y="110" width="480" height="2" fill="#e5e7eb"></rect>
+                        <rect x="60" y="640" width="480" height="2" fill="#e5e7eb"></rect>
+                        <text x="300" y="85" text-anchor="middle" font-family="ui-serif, Georgia, Cambria" font-size="28" fill="#1f2937">Майндфулнесс-практик</text>
+                        <text x="300" y="155" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="16" fill="#374151">Супервизия, 2022</text>
+                        <circle cx="480" cy="690" r="34" fill="#e5e7eb" stroke="#9ca3af"></circle>
+                        <text x="480" y="695" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="12" fill="#374151">SEAL</text>
+                        <rect x="110" y="690" width="220" height="8" fill="#d1d5db"></rect>
+                        <rect x="110" y="710" width="160" height="8" fill="#e5e7eb"></rect>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Панель: Запись -->
+          <div id="panel-book" role="tabpanel" aria-labelledby="tab-book" hidden>
+            <form id="book-form" class="grid" novalidate>
+              <div id="form-alert" class="alert hint" aria-live="polite">Все поля можно заполнить на русском/испанском.</div>
+
+              <div class="row row-2">
+                <div class="field">
+                  <label class="label" for="name">Имя и фамилия</label>
+                  <input id="name" class="input" required aria-describedby="err-name" />
+                  <p id="err-name" class="error" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="label" for="email">Email</label>
+                  <input id="email" type="email" class="input" required aria-describedby="err-email" />
+                  <p id="err-email" class="error" hidden></p>
+                </div>
+              </div>
+
+              <div class="row row-2">
+                <div class="field">
+                  <label class="label" for="phone">Телефон</label>
+                  <input id="phone" class="input" inputmode="tel" required aria-describedby="err-phone" />
+                  <p id="err-phone" class="error" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="label" for="mode">Формат консультации</label>
+                  <select id="mode" class="select" aria-describedby="err-mode">
+                    <option value="online">Онлайн (видеосвязь)</option>
+                    <option value="office">Очно (Санкт-Петербурге)</option>
+                  </select>
+                  <p id="err-mode" class="error" hidden></p>
+                </div>
+              </div>
+
+              <div class="row row-2">
+                <div class="field">
+                  <label class="label" for="date">Предпочтительная дата</label>
+                  <input id="date" type="date" class="input" required aria-describedby="err-date" />
+                  <p id="err-date" class="error" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="label" for="time">Время</label>
+                  <input id="time" type="time" class="input" required aria-describedby="err-time" />
+                  <p id="err-time" class="error" hidden></p>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label" for="message">Коротко о запросе (необязательно)</label>
+                <textarea id="message" class="textarea" rows="5"></textarea>
+              </div>
+
+              <div class="consent">
+                <input id="consent" type="checkbox" aria-describedby="err-consent" />
+                <label for="consent">Согласен(на) на обработку персональных данных и получение ответа по email/телефону.</label>
+              </div>
+              <p id="err-consent" class="error" hidden></p>
+
+              <div style="display:flex;gap:12px;align-items:center;">
+                <button class="btn" type="submit">Записаться</button>
+                <span id="form-status" class="hint" role="status" aria-live="polite"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Подвал -->
+      <div class="footer">
+        <p>© <span id="year"></span> Наталья · Психолог-консультант</p>
+        <p>Санкт-Петербург · Онлайн · <a href="#" style="text-decoration:underline">Политика конфиденциальности</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- JSON-LD для SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Psychologist",
+    "name": "Наталья",
+    "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
+    "areaServed": ["Spain","EU","Online"],
+    "availableService": [
+      { "@type": "Service", "name": "Индивидуальная консультация", "description": "Очно/онлайн, работа с запросом и планом изменений" },
+      { "@type": "Service", "name": "Парная терапия", "description": "Коммуникация, конфликты, договорённости" },
+      { "@type": "Service", "name": "Краткосрочная поддержка", "description": "Стабилизация состояния, 2–4 встречи" }
+    ],
+    "url": "https://example-psychologist-site.demo"
+  }
+  </script>
+
+  <script>
+    // ====== Переключение тем и вида шапки для A/B/C ======
+    const variantButtons = document.querySelectorAll('.switcher button');
+    const hero = document.getElementById('hero');
+
+    function applyVariant(v) {
+      document.documentElement.setAttribute('data-theme', v);
+      variantButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.variant === v)));
+      // Компоновка шапки: A — left, B — center, C — split
+      hero.classList.remove('center', 'split');
+      hero.dataset.kind = (v === 'A') ? 'left' : (v === 'B') ? 'center' : 'split';
+      if (v === 'B') hero.classList.add('center');
+      if (v === 'C') hero.classList.add('split');
+      // Для split добавим портрет справа
+      const inner = hero.querySelector('.hero-inner');
+      inner.innerHTML = (v === 'C')
+        ? `
+          <div>
+            <h1>Психолог Наталья</h1>
+            <p>Спокойная, бережная терапия: тревога, стресс, отношения. Очно в Санкт-Петербурге и онлайн.</p>
+          </div>
+          <div class="portrait">
+            <svg viewBox="0 0 240 320" role="img" aria-label="Портрет психолога">
+              <rect width="240" height="320" fill="#fafafa"></rect>
+              <circle cx="120" cy="110" r="50" fill="#e5e7eb" stroke="#94a3b8" stroke-width="2"></circle>
+              <rect x="60" y="170" width="120" height="100" rx="16" fill="#e5e7eb" stroke="#94a3b8" stroke-width="2"></rect>
+              <rect x="0" y="260" width="240" height="60" fill="#f3f4f6"></rect>
+              <text x="120" y="285" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="14" fill="#475569">Наталья</text>
+              <text x="120" y="305" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="12" fill="#64748b">психолог-консультант</text>
+            </svg>
+          </div>`
+        : `
+          <div>
+            <h1>Психолог Наталья</h1>
+            <p>Спокойная, бережная терапия: тревога, стресс, отношения. Очно в Санкт-Петербурге и онлайн.</p>
+          </div>`;
+    }
+    variantButtons.forEach(b => b.addEventListener('click', () => applyVariant(b.dataset.variant)));
+
+    // ====== Вкладки ======
+    const tabAbout = document.getElementById('tab-about');
+    const tabBook = document.getElementById('tab-book');
+    const panelAbout = document.getElementById('panel-about');
+    const panelBook = document.getElementById('panel-book');
+
+    function setTab(which) {
+      const isAbout = which === 'about';
+      tabAbout.setAttribute('aria-selected', String(isAbout));
+      tabBook.setAttribute('aria-selected', String(!isAbout));
+      panelAbout.hidden = !isAbout;
+      panelBook.hidden = isAbout;
+    }
+    tabAbout.addEventListener('click', () => setTab('about'));
+    tabBook.addEventListener('click', () => setTab('book'));
+
+    // ====== Форма: валидация и доступные сообщения ======
+    const form = document.getElementById('book-form');
+    const alertBox = document.getElementById('form-alert');
+    const status = document.getElementById('form-status');
+
+    const fields = {
+      name: document.getElementById('name'),
+      email: document.getElementById('email'),
+      phone: document.getElementById('phone'),
+      mode: document.getElementById('mode'),
+      date: document.getElementById('date'),
+      time: document.getElementById('time'),
+      message: document.getElementById('message'),
+      consent: document.getElementById('consent')
+    };
+    const errs = {
+      name: document.getElementById('err-name'),
+      email: document.getElementById('err-email'),
+      phone: document.getElementById('err-phone'),
+      mode: document.getElementById('err-mode'),
+      date: document.getElementById('err-date'),
+      time: document.getElementById('err-time'),
+      consent: document.getElementById('err-consent')
+    };
+
+    function validate() {
+      const e = {};
+      if (!fields.name.value.trim()) e.name = 'Укажите имя';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value)) e.email = 'Некорректный email';
+      if (!/^([+]?[0-9\s\-()]{7,})$/.test(fields.phone.value)) e.phone = 'Укажите телефон (можно +34)';
+      if (!fields.date.value) e.date = 'Выберите дату';
+      if (!fields.time.value) e.time = 'Выберите время';
+      if (!fields.consent.checked) e.consent = 'Нужно согласие на обработку данных';
+      return e;
+    }
+
+    function showErrors(e) {
+      // Сброс
+      Object.keys(errs).forEach(k => { errs[k].hidden = true; errs[k].textContent = ''; });
+      // Показ
+      const keys = Object.keys(e);
+      if (keys.length) {
+        alertBox.textContent = 'Пожалуйста, исправьте ошибки ниже.';
+        alertBox.className = 'alert error';
+        keys.forEach(k => { errs[k].hidden = false; errs[k].textContent = e[k]; });
+      } else {
+        alertBox.textContent = 'Все поля можно заполнить на русском/испанском.';
+        alertBox.className = 'alert hint';
+      }
+    }
+
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      status.textContent = '';
+      const e = validate();
+      showErrors(e);
+      if (Object.keys(e).length === 0) {
+        // Здесь можно выполнить реальную отправку (fetch)
+        // fetch('/api/book', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) })
+        form.reset();
+        status.textContent = 'Спасибо! Я свяжусь с вами в течение 24 часов.';
+      }
+    });
+
+    // Год в подвале
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Инициализация
+    applyVariant('B');
+    setTab('about');
+  </script>
+</body>
+</html>

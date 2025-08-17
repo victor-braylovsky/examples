@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наталья - психолог</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%23e8f4f8;stop-opacity:1" /><stop offset="100%" style="stop-color:%23f0f8ff;stop-opacity:1" /></linearGradient></defs><rect width="1200" height="800" fill="url(%23sky)"/><path d="M0 600 Q300 550 600 580 T1200 600 L1200 800 L0 800 Z" fill="%23c8e6c9" opacity="0.7"/><path d="M0 650 Q400 620 800 640 T1200 650 L1200 800 L0 800 Z" fill="%23a5d6a7" opacity="0.5"/><circle cx="200" cy="300" r="80" fill="%23b39ddb" opacity="0.3"/><circle cx="400" cy="250" r="60" fill="%23c5cae9" opacity="0.4"/><circle cx="800" cy="320" r="100" fill="%23d1c4e9" opacity="0.3"/><circle cx="1000" cy="280" r="70" fill="%23e1bee7" opacity="0.4"/></svg>') no-repeat center center fixed, 
+                    linear-gradient(135deg, #f3e5f5 0%, #e8f5e8 100%);
+            background-size: cover;
+            color: #2e3440;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #2d3748;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4299e1;
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after, .nav-item.active::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* About Page */
+        .hero-section {
+            padding: 60px 0 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="leaves" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse"><path d="M7.5 2 Q10 5 7.5 8 Q5 5 7.5 2" fill="rgba(139, 195, 74, 0.1)"/><circle cx="12" cy="12" r="1" fill="rgba(255, 183, 77, 0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23leaves)"/></svg>');
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .hero-text .description {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 35px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(142, 125, 162, 0.7);
+            color: #5e4b66;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: #5e4b66;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(94, 75, 102, 0.2);
+        }
+
+        .hero-photo {
+            text-align: center;
+        }
+
+        .hero-photo img {
+            width: 280px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 40px rgba(94, 75, 102, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hero-photo img:hover {
+            transform: scale(1.02);
+        }
+
+        /* About Details Section */
+        .about-details {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #5e4b66;
+            font-weight: 400;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #4a4a4a;
+            line-height: 1.7;
+        }
+
+        .specializations {
+            background: rgba(200, 230, 201, 0.3);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 5px solid #81c784;
+        }
+
+        .specializations h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #5e4b66;
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            padding: 8px 0;
+            color: #4a4a4a;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .spec-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #81c784;
+            font-weight: bold;
+        }
+
+        /* Diplomas Section */
+        .diplomas-section {
+            padding: 80px 0;
+            background: rgba(248, 249, 250, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .diplomas-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #5e4b66;
+            font-weight: 400;
+        }
+
+        .diplomas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .diploma-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(94, 75, 102, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .diploma-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(94, 75, 102, 0.15);
+        }
+
+        .diploma-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #d1c4e9 0%, #c8e6c9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diploma-image::before {
+            content: '📜';
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .diploma-info {
+            padding: 25px;
+        }
+
+        .diploma-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #5e4b66;
+        }
+
+        .diploma-info p {
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Booking Page */
+        .booking-section {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            min-height: calc(100vh - 80px);
+        }
+
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .booking-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .booking-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: #5e4b66;
+            font-weight: 400;
+        }
+
+        .booking-header p {
+            font-size: 1.2rem;
+            color: #4a4a4a;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .booking-form {
+            background: rgba(248, 249, 250, 0.8);
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(94, 75, 102, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #5e4b66;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 15px 20px;
+            border: 2px solid rgba(200, 230, 201, 0.5);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #81c784;
+            box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #9c88b1 0%, #b5a1bc 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(156, 136, 177, 0.3);
+        }
+
+        .contact-info {
+            margin-top: 50px;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(94, 75, 102, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            color: #5e4b66;
+        }
+
+        .contact-item {
+            margin: 10px 0;
+            color: #4a4a4a;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .booking-form {
+                padding: 30px 25px;
+            }
+
+            .nav {
+                gap: 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .hero-photo img {
+                width: 250px;
+                height: 300px;
+            }
+        }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Наталья</a>
+                <nav class="nav">
+                    <a href="#" class="nav-item active" onclick="showPage('about')">О себе</a>
+                    <a href="#" class="nav-item" onclick="showPage('booking')">Записаться на консультацию</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Page -->
+    <div class="page active" id="about-page">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content fade-in">
+                    <div class="hero-text">
+                        <h1>Наталья</h1>
+                        <p class="subtitle">Клинический психолог, психотерапевт</p>
+                        <p class="description">Помогаю людям обрести внутреннюю гармонию и справиться с жизненными вызовами. Использую современные методы психотерапии с индивидуальным подходом к каждому клиенту.</p>
+                        <a href="#" class="cta-button" onclick="showPage('booking')">Записаться на консультацию</a>
+                    </div>
+                    <div class="hero-photo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='350' viewBox='0 0 280 350'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f8f9fa;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23e9ecef;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='280' height='350' fill='url(%23grad1)' stroke='%23dee2e6' stroke-width='2' rx='20'/%3E%3Ccircle cx='140' cy='120' r='40' fill='%23adb5bd'/%3E%3Cpath d='M 100 160 Q 140 140 180 160' stroke='%236c757d' stroke-width='2' fill='none'/%3E%3Crect x='80' y='200' width='120' height='80' fill='%23ced4da' rx='10'/%3E%3Ctext x='140' y='320' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%236c757d'%3EНаталья%3C/text%3E%3C/svg%3E" alt="Наталья">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Details -->
+        <section class="about-details">
+            <div class="container">
+                <div class="about-grid fade-in">
+                    <div class="about-text">
+                        <h2>Обо мне</h2>
+                        <p>Я практикующий психолог с опытом работы более 10 лет. За это время я помогла сотням людей справиться с различными жизненными трудностями и найти путь к внутренней гармонии.</p>
+                        
+                        <p>Мой подход основан на принципах гуманистической психологии и интеграции различных терапевтических методов. Я верю, что каждый человек обладает внутренними ресурсами для преодоления трудностей и личностного роста.</p>
+                        
+                        <p>В своей работе я использую индивидуальный подход, создавая безопасное пространство для исследования ваших чувств, мыслей и поведенческих паттернов.</p>
+                    </div>
+                    
+                    <div class="specializations">
+                        <h3>Специализации</h3>
+                        <ul class="spec-list">
+                            <li>Работа с тревожными расстройствами</li>
+                            <li>Депрессивные состояния</li>
+                            <li>Семейное консультирование</li>
+                            <li>Проработка травматического опыта</li>
+                            <li>Кризисные ситуации</li>
+                            <li>Личностный рост и самопознание</li>
+                            <li>Работа с созависимостью</li>
+                            <li>Профессиональное выгорание</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diplomas Section -->
+        <section class="diplomas-section">
+            <div class="container">
+                <h2 class="fade-in">Образование и сертификаты</h2>
+                <div class="diplomas-grid">
+                    <div class="diploma-card fade-in">
+                        <div class="diploma-image"></div>
+                        <div class="diploma-info">
+                            <h3>Высшее образование</h3>
+                            <p><strong>МГУ им. М.В. Ломоносова</strong><br>
+                            Факультет психологии<br>
+                            Специальность: Клиническая психология<br>
+                            2008-2013 гг.</p>
+                        </div>
+                    </div>
+
+                    <div class="diploma-card fade-in">
+                        <div class="diploma-image"></div>
+                        <div class="diploma-info">
+                            <h3>Гештальт-терапия</h3>
+                            <p><strong>Московский институт гештальта</strong><br>
+                            4-летняя программа обучения<br>
+                            Сертифицированный гештальт-терапевт<br>
+                            2014-2018 гг.</p>
+                        </div>
+                    </div>
+
+                    <div class="diploma-card fade-in">
+                        <div class="diploma-image"></div>
+                        <div class="diploma-info">
+                            <h3>Семейная терапия</h3>
+                            <p><strong>Институт системной семейной терапии</strong><br>
+                            Системная семейная терапия<br>
+                            300 академических часов<br>
+                            2019-2020 гг.</p>
+                        </div>
+                    </div>
+
+                    <div class="diploma-card fade-in">
+                        <div class="diploma-image"></div>
+                        <div class="diploma-info">
+                            <h3>Травма-терапия</h3>
+                            <p><strong>Центр изучения травмы</strong><br>
+                            EMDR и соматическая терапия<br>
+                            Работа с ПТСР<br>
+                            2021-2022 гг.</p>
+                        </div>
+                    </div>
+
+                    <div class="diploma-card fade-in">
+                        <div class="diploma-image"></div>
+                        <div class="diploma-info">
+                            <h3>Повышение квалификации</h3>
+                            <p><strong>Российское психологическое общество</strong><br>
+                            Современные методы психотерапии<br>
+                            Непрерывное образование<br>
+                            Ежегодно с 2013 г.</p>
+                        </div>
+                    </div>
+
+                    <div class="diploma-card fade-in">
+                        <div class="diploma-image"></div>
+                        <div class="diploma-info">
+                            <h3>Супервизия</h3>
+                            <p><strong>Профессиональная ассоциация</strong><br>
+                            Регулярная супервизия<br>
+                            Контроль качества терапии<br>
+                            Постоянно</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Booking Page -->
+    <div class="page" id="booking-page">
+        <section class="booking-section">
+            <div class="container">
+                <div class="booking-container">
+                    <div class="booking-header fade-in">
+                        <h1>Записаться на консультацию</h1>
+                        <p>Заполните форму ниже, и я свяжусь с вами в течение 24 часов для согласования удобного времени консультации.</p>
+                    </div>
+
+                    <div class="booking-form fade-in">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Имя *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="age">Возраст</label>
+                                <select id="age" name="age">
+                                    <option value="">Выберите возраст</option>
+                                    <option value="18-25">18-25 лет</option>
+                                    <option value="26-35">26-35 лет</option>
+                                    <option value="36-45">36-45 лет</option>
+                                    <option value="46-55">46-55 лет</option>
+                                    <option value="56-65">56-65 лет</option>
+                                    <option value="65+">Старше 65 лет</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Телефон *</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Электронная почта</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telegram">Telegram</label>
+                                <input type="text" id="telegram" name="telegram" placeholder="@username">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="format">Формат консультации</label>
+                                <select id="format" name="format">
+                                    <option value="online">Онлайн (Zoom, Skype)</option>
+                                    <option value="offline">Очно (в кабинете)</option>
+                                    <option value="any">Любой</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="issue">Краткое описание вопроса *</label>
+                                <textarea id="issue" name="issue" placeholder="Расскажите кратко, с чем вы хотели бы поработать. Эта информация поможет мне лучше подготовиться к нашей встрече." required></textarea>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="experience">Опыт психотерапии</label>
+                                <select id="experience" name="experience">
+                                    <option value="">Выберите вариант</option>
+                                    <option value="none">Никогда не обращался(лась)</option>
+                                    <option value="little">Была 1-2 консультации</option>
+                                    <option value="some">Проходил(а) краткосрочную терапию</option>
+                                    <option value="extensive">Имею опыт долгосрочной терапии</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-button" onclick="submitForm()">Отправить заявку</button>
+                    </div>
+
+                    <div class="contact-info fade-in">
+                        <h3>Контакты для связи</h3>
+                        <div class="contact-item">📞 +7 (905) 123-45-67</div>
+                        <div class="contact-item">✉️ natalia.psy@gmail.com</div>
+                        <div class="contact-item">💬 @natalia_psy</div>
+                        <div class="contact-item">📍 Санкт-Петербург, ул. Тверская, д. 15, офис 201</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
