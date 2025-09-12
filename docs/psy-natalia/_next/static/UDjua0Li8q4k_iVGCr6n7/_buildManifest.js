@@ -1,13 +1,13 @@
 self.__BUILD_MANIFEST = {
   "/_error": [
-    "./static/chunks/ae5d0382792ac1c3.js"
+    "./static/chunks/d37ef5fbbbc1b783.js"
   ],
   "__rewrites": {
     "afterFiles": [],
     "beforeFiles": [
       {
-        "source": "/psy-natalia//_next/:path+",
-        "destination": "/psy-natalia/_next/:path+"
+        "source": "/examples/psy-natalia//_next/:path+",
+        "destination": "/examples/psy-natalia/_next/:path+"
       }
     ],
     "fallback": []
