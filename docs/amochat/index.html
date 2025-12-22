@@ -1,11 +1,69 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <title>Reencar AmoChat</title>
-  </head>
-  <body>
-    <div id="amo_social_button"></div>
-    <h1>Reencar AmoChat</h1>
-    <script>(function(a,m,o,c,r,m){a[m]={id:"425815",hash:"3d65a850debc73ad018e2305f840997da7034d08bf6013b56afaa333220d5bc7",locale:"ru",inline:true,setMeta:function(p){this.params=(this.params||[]).concat([p])}};a[o]=a[o]||function(){(a[o].q=a[o].q||[]).push(arguments)};var d=a.document,s=d.createElement('script');s.async=true;s.id=m+'_script';s.src='https://gso.amocrm.ru/js/button.js';d.head&&d.head.appendChild(s)}(window,0,'amoSocialButton',0,0,'amo_social_button'));</script>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Reencar AmoChat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .amo-button-holder {
+      display: none !important;
+    }
+
+    #chat_container {
+      width: 600px;
+      height: 500px;
+      margin: 40px auto;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="amo_social_button"></div>
+  <h1>Reencar AmoChat</h1>
+  <div id="chat_container"></div>
+  <script>
+    window.amoSocialButtonConfig = {
+      onlinechat: {
+        mode: 'frame',
+        container: '#chat_container',
+        theme: {
+          // background: 'yellow', // фон
+          // system_color: 'pink', // цвет системных текстов (статус доставки, дата)
+          header: { // можно указать header: false, тогда он вообще не будет отрисован
+            background: '#fb8a00', // цвет фона верхней части чата
+            // color: 'black', // цвет текста верхней части
+          },
+          message: {
+            // outgoing_background: '#fb8a00', // фон сообщения пользователя
+            // outgoing_color: 'black', // цвет текста сообщения пользователя
+            incoming_background: '#fb8a00', // фон ответа оператора
+            incoming_color: 'white', // цвет текста ответа оператора
+          },
+          // compose: {
+          //   height: 100, // минимальная высота в пикселях (максимальная 170px, изменить ее нельзя)
+          //   button_background: 'black', // фон кнопки отправки
+          // }
+        },
+      },
+    };
+
+    (function (a, m, o, c, r, m) { a[m] = { id: "425815", hash: "3d65a850debc73ad018e2305f840997da7034d08bf6013b56afaa333220d5bc7", locale: "ru", inline: true, setMeta: function (p) { this.params = (this.params || []).concat([p]) } }; a[o] = a[o] || function () { (a[o].q = a[o].q || []).push(arguments) }; var d = a.document, s = d.createElement('script'); s.async = true; s.id = m + '_script'; s.src = 'https://gso.amocrm.ru/js/button.js'; d.head && d.head.appendChild(s) }(window, 0, 'amoSocialButton', 0, 0, 'amo_social_button'));
+
+    amoSocialButton('onChatReady', function () {
+      amoSocialButton('runChatShow');
+      // amoSocialButton('onConversationsChange', function (conversations) {
+      //   console.log('onConversationsChange');
+      //   console.log(conversations);
+      // });
+    });
+  </script>
+
 </html>
